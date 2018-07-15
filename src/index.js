@@ -5,10 +5,79 @@ const menu = [
     label: 'File',
     submenu: [
       {
+        label: 'Open File',
+        accelerator: 'CmdOrCtrl+O'
+      },
+      {
+        label: 'Open Folder',
+        accelerator: 'CmdOrCtrl+Shift+O'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Save',
+        accelerator: 'CmdOrCtrl+S'
+      },
+      {
+        label: 'Save As',
+        accelerator: 'CmdOrCtrl+Shift+S'
+      },
+      {
+        type: 'separator'
+      },
+      {
         label: 'Quit',
         click: () => {
           app.quit();
         }
+      }
+    ]
+  },
+  {
+    label: 'Edit',
+    submenu: [
+      {
+        label: 'Undo',
+        accelerator: 'CmdOrCtrl+Z'
+      },
+      {
+        label: 'Redo',
+        accelerator: 'CmdOrCtrl+Y'
+      }
+    ]
+  },
+  {
+    label: 'View',
+    submenu: [
+      {
+        label: 'Toggle Full Screen',
+        accelerator: 'F11'
+      },
+      {
+        label: 'Toggle Tree View',
+        accelerator: 'Alt+1'
+      },
+      {
+        label: 'Toggle Terminal',
+        accelerator: 'Alt+2'
+      }
+    ]
+  },
+  {
+    label: 'Help',
+    submenu: [
+      {
+        label: 'Documentation'
+      },
+      {
+        label: 'Frequently Asked Questions'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Welcome Guide'
       }
     ]
   }
