@@ -1,0 +1,27 @@
+{
+  "name": "hawk",
+  "version": "0.1.0",
+  "description": "A simple IDE made in Electron.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "eslint src/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkyHawkB/Hawk.git"
+  },
+  "keywords": [
+    "ide"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SkyHawkB/Hawk/issues"
+  },
+  "homepage": "https://github.com/SkyHawkB/Hawk#readme",
+  "devDependencies": {
+    "electron": "~2.0.5",
+    "eslint": "^4.19.1"
+  }
+}
