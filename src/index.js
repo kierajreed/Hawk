@@ -1,5 +1,12 @@
 const {app, BrowserWindow, Menu} = require('electron');
 let mainWindow;
+const options = {
+  minWidth: 600,
+  minHeight: 450,
+  width: 800,
+  height: 600,
+  backgroundColor: '#303040'
+};
 const menu = [
   {
     label: 'File',
@@ -84,7 +91,7 @@ const menu = [
 ];
 
 function createWindow() {
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow(options);
 
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
@@ -93,6 +100,8 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  // mainWindow.toggleDevTools();
 }
 
 app.on('ready', createWindow);
