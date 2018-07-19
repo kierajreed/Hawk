@@ -1,9 +1,13 @@
 @editor:    #303038;
 @panes:     #212127;
 @borders:   #18181C;
-@text:      #EEEEEE;
+@text:      #9F9F9F;
 
 @bar-height: 30px;
+
+* {
+  color: @text;
+}
 
 body, html, #editor-container {
   width: 100%;
@@ -11,7 +15,6 @@ body, html, #editor-container {
   margin: 0px;
   display: block;
   background-color: @editor;
-  color: @text;
 }
 
 #editor-container {
@@ -55,6 +58,13 @@ body, html, #editor-container {
   border-top: 1px solid @borders;
 
   #right {
+    display: flex;
+    height: @bar-height;
     float: right;
+
+    * {
+      margin: auto;
+      padding: 5px;
+    }
   }
 }
