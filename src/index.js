@@ -1,4 +1,5 @@
-const {app, BrowserWindow, Menu} = require('electron');
+const electron = require('electron');
+const {app, dialog, BrowserWindow, Menu} = electron;
 let mainWindow;
 const options = {
   minWidth: 600,
@@ -13,11 +14,19 @@ const menu = [
     submenu: [
       {
         label: 'Open File',
-        accelerator: 'CmdOrCtrl+O'
+        accelerator: 'CmdOrCtrl+O',
+        click: () => {
+          const filePath = dialog.showOpenDialog({properties: ['openFile']});
+          console.log(filePath);
+        }
       },
       {
         label: 'Open Folder',
-        accelerator: 'CmdOrCtrl+Shift+O'
+        accelerator: 'CmdOrCtrl+Shift+O',
+        click: () => {
+          const folderPath = dialog.showOpenDialog({properties: ['openDirectory']});
+          console.log(folderPath);
+        }
       },
       {
         type: 'separator'
