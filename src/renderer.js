@@ -12,17 +12,17 @@ setInterval(() => {
 }, 500);
 
 
-const fs = require('fs');
+const readdir = require('./readdir-recursive.js');
 const {ipcRenderer} = require('electron');
 let currentWorkingDirectory = null;
 
 function render() {
-  fs.readdir(currentWorkingDirectory, (err, files) => {
-    files.forEach((file) => {
-      try {
-        document.getElementById('tree-view').innerHTML += `<li>${file}</li>`;
-      } catch(e) {}
-    });
+  const files = readdir(currentWorkingDirectory);
+
+  files.forEach((file) => {
+    try {
+      document.getElementById('tree-view').innerHTML += `<li>${file}</li>`;
+    } catch(e) {}
   });
 };
 

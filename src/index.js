@@ -121,7 +121,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  mainWindow.toggleDevTools();
+  //mainWindow.toggleDevTools();
 }
 
 app.on('ready', createWindow);
