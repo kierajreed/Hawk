@@ -1,6 +1,19 @@
 const electron = require('electron');
-const {app, dialog, BrowserWindow, Menu} = electron;
+const {app, dialog, BrowserWindow, Menu, ipcMain} = electron;
+let currentWorkingDirectory;
+const fs = require('fs');
+const _path = require('path');
 let mainWindow;
+const open = (path) => {
+  console.log(path);
+  if(fs.lstatSync(path).isDirectory()) {
+    currentWorkingDirectory = path;
+  } else {
+    currentWorkingDirectory = _path.dirname(path);
+  }
+
+  mainWindow.webContents.send('cwdUpdate', {cwd: currentWorkingDirectory});
+};
 const options = {
   minWidth: 600,
   minHeight: 450,
@@ -16,16 +29,14 @@ const menu = [
         label: 'Open File',
         accelerator: 'CmdOrCtrl+O',
         click: () => {
-          const filePath = dialog.showOpenDialog({properties: ['openFile']});
-          console.log(filePath);
+          open(dialog.showOpenDialog({properties: ['openFile']})[0]);
         }
       },
       {
         label: 'Open Folder',
         accelerator: 'CmdOrCtrl+Shift+O',
         click: () => {
-          const folderPath = dialog.showOpenDialog({properties: ['openDirectory']});
-          console.log(folderPath);
+          open(dialog.showOpenDialog({properties: ['openDirectory']})[0]);
         }
       },
       {
@@ -110,7 +121,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  // mainWindow.toggleDevTools();
+  mainWindow.toggleDevTools();
 }
 
 app.on('ready', createWindow);
