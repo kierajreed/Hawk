@@ -1,5 +1,5 @@
 const electron = require('electron');
-const {app, dialog, BrowserWindow, Menu, ipcMain} = electron;
+const {app, dialog, BrowserWindow, Menu} = electron;
 let currentWorkingDirectory;
 const fs = require('fs');
 const _path = require('path');
