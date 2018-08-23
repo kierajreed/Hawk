@@ -14,15 +14,33 @@ setInterval(() => {
 
 const readdir = require('./readdir-recursive.js');
 const {ipcRenderer} = require('electron');
-let currentWorkingDirectory = null;
+let currentWorkingDirectory;
 
 function render() {
   const files = readdir(currentWorkingDirectory);
 
   files.forEach((file) => {
     try {
-      document.getElementById('tree-view').innerHTML += `<li>${file}</li>`;
-    } catch(e) {}
+      if(!/[\\\/]/g.test(file)) {
+        document.getElementById('tvl-tree-view').innerHTML += `<li>${file}</li>`;
+      } else {
+        let levels = file.split(/[\\\/]/g);
+        levels.splice(0, 0, 'tree-view');
+        console.log(levels);
+
+        for(let i in levels) {
+          if(i == levels.length - 1) {
+            document.getElementById(`tvl-${levels[i - 1]}`).innerHTML += `<li>${levels[i]}`;
+          } else {
+            if(!document.getElementById('tvl-' + levels[i])) {
+              document.getElementById('tvl-' + levels[i - 1]).innerHTML += `<li>${levels[i]}<ul id="${"tvl-" + levels[i]}" class="tree-view"></ul></li>`;
+            }
+          }
+        }
+      }
+    } catch(e) {
+      console.error(e);
+    }
   });
 };
 

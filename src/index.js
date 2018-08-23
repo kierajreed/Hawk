@@ -6,6 +6,8 @@ const _path = require('path');
 let mainWindow;
 const open = (path) => {
   console.log(path);
+  if(!path) return;
+
   if(fs.lstatSync(path).isDirectory()) {
     currentWorkingDirectory = path;
   } else {
@@ -121,7 +123,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  //mainWindow.toggleDevTools();
+  mainWindow.toggleDevTools();
 }
 
 app.on('ready', createWindow);
