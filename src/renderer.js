@@ -22,7 +22,7 @@ function render() {
   files.forEach((file) => {
     try {
       if(!/[\\\/]/g.test(file)) {
-        document.getElementById('tvl-tree-view').innerHTML += `<li>${file}</li>`;
+        document.getElementById('tvl-tree-view').innerHTML += `<li><i class="far fa-file"></i> ${file}</li>`;
       } else {
         let levels = file.split(/[\\\/]/g);
         levels.splice(0, 0, 'tree-view');
@@ -30,10 +30,10 @@ function render() {
 
         for(let i in levels) {
           if(i == levels.length - 1) {
-            document.getElementById(`tvl-${levels[i - 1]}`).innerHTML += `<li>${levels[i]}`;
+            document.getElementById(`tvl-${levels[i - 1]}`).innerHTML += `<li><i class="far fa-file"></i> ${levels[i]}`;
           } else {
             if(!document.getElementById('tvl-' + levels[i])) {
-              document.getElementById('tvl-' + levels[i - 1]).innerHTML += `<li>${levels[i]}<ul id="${"tvl-" + levels[i]}" class="tree-view"></ul></li>`;
+              document.getElementById('tvl-' + levels[i - 1]).innerHTML += `<li><i class="far fa-folder-open"></i> ${levels[i]}<ul id="${"tvl-" + levels[i]}" class="tree-view"></ul></li>`;
             }
           }
         }
