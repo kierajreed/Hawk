@@ -18,7 +18,6 @@ let currentWorkingDirectory;
 
 function render() {
   const files = readdir(currentWorkingDirectory);
-
   files.forEach((file) => {
     try {
       if(!/[\\\/]/g.test(file)) {
@@ -33,7 +32,7 @@ function render() {
             document.getElementById(`tvl-${levels[i - 1]}`).innerHTML += `<li><i class="far fa-file"></i> ${levels[i]}`;
           } else {
             if(!document.getElementById('tvl-' + levels[i])) {
-              document.getElementById('tvl-' + levels[i - 1]).innerHTML += `<li><i class="far fa-folder-open"></i> ${levels[i]}<ul id="${"tvl-" + levels[i]}" class="tree-view"></ul></li>`;
+              document.getElementById('tvl-' + levels[i - 1]).innerHTML += `<li class="tv-f tv-f-open"><i class="far fa-folder-open"></i> ${levels[i]}<ul id="${"tvl-" + levels[i]}" class="tree-view"></ul></li>`;
             }
           }
         }
@@ -42,6 +41,16 @@ function render() {
       console.error(e);
     }
   });
+
+  const elements = document.getElementsByClassName('tv-f');
+  for(let i = 0; i < elements.length; i++) {
+    let element = elements[i];
+
+    element.addEventListener('click', () => {
+      element.classList.toggle('tv-f-open');
+      element.classList.toggle('tv-f-closed');
+    });
+  }
 };
 
 ipcRenderer.on('cwdUpdate', (event, data) => {
