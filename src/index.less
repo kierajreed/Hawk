@@ -17,6 +17,19 @@ body, html, #editor-container {
   background-color: @editor;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #CCCCCC;
+}
+::-webkit-scrollbar-thumb {
+    background: #999999;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #666666; 
+}
+
 #editor-container {
   height: calc(100% - (@bar-height - 1px));
 }
@@ -28,6 +41,7 @@ body, html, #editor-container {
   background-color: @panes;
   border-right: 1px solid @borders;
   padding-bottom: (@bar-height - 1px);
+  overflow: auto;
 }
 .tree-view {
   margin: 0px;
