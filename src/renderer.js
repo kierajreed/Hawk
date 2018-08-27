@@ -32,7 +32,7 @@ function render() {
             document.getElementById(`tvl-${levels[i - 1]}`).innerHTML += `<li><i class="far fa-file"></i> ${levels[i]}`;
           } else {
             if(!document.getElementById('tvl-' + levels[i])) {
-              document.getElementById('tvl-' + levels[i - 1]).innerHTML += `<li class="tv-f tv-f-open"><i class="far fa-folder-open"></i> ${levels[i]}<ul id="${"tvl-" + levels[i]}" class="tree-view"></ul></li>`;
+              document.getElementById('tvl-' + levels[i - 1]).innerHTML += `<li class="tv-f tv-f-open"><i class="far fa-folder-open"></i><i class="far fa-folder"></i> ${levels[i]}<ul id="${"tvl-" + levels[i]}" class="tree-view"></ul></li>`;
             }
           }
         }
