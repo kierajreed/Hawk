@@ -46,7 +46,10 @@ const menu = [
       },
       {
         label: 'Save',
-        accelerator: 'CmdOrCtrl+S'
+        accelerator: 'CmdOrCtrl+S',
+        click: () => {
+          mainWindow.webContents.send('saveFile', {});
+        }
       },
       {
         label: 'Save As',

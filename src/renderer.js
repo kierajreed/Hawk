@@ -17,6 +17,7 @@ const {ipcRenderer} = require('electron');
 const fs = require('fs');
 const _path = require('path');
 let currentWorkingDirectory;
+let currentOpenPath;
 let currentOpenEditor;
 
 function _escape(string) {
@@ -72,6 +73,7 @@ function render() {
       document.getElementById('editor').innerHTML = `<textarea id="mainEditor"></textarea>`;
 
       const path = getPathFromElement(fileElement);
+      currentOpenPath = path;
       document.getElementById('mainEditor').innerHTML = fs.readFileSync(path);
     });
   }
@@ -81,3 +83,11 @@ ipcRenderer.on('cwdUpdate', (event, data) => {
   currentWorkingDirectory = data.cwd;
   render();
 });
+
+ipcRenderer.on('saveFile', (event, data) => {
+  const content = document.getElementById('mainEditor').value;
+
+  console.log(content);
+
+  fs.writeFileSync(currentOpenPath, content);
+})
