@@ -24,7 +24,7 @@ function _escape(string) {
 }
 function getPathFromElement(element) {
   const content = element.innerHTML;
-  const path = /<span class="_meta">(.+)<\/span>/.exec(content)[1];
+  const path = /<span class="_meta">(.+)<\/span>/.exec(content)[1].replace('%lt%', '<').replace('%gt%', '>');
 
   return _path.join(currentWorkingDirectory, path);
 }
