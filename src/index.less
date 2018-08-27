@@ -90,6 +90,23 @@ body, html, #editor-container {
   top: (@bar-height - 1px);
   left: 201px;
 }
+#mainEditor {
+  background-color: inherit;
+  width: 100%;
+  height: 100%;
+  border: none;
+  margin: 0;
+  white-space: nowrap;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  &:active {
+    border: none;
+    outline: none;
+  }
+}
 
 #status-bar {
   width: 100%;
