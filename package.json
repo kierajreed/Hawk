@@ -6,7 +6,9 @@
   "scripts": {
     "start": "npm run compile-less && electron .",
     "test": "eslint src/**",
-    "compile-less": "lessc src/index.less src/index.css"
+    "compile-less": "lessc src/index.less src/index.css",
+    "pack": "electron-builder --dir -lw",
+    "dist": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -15,7 +17,9 @@
   "keywords": [
     "ide"
   ],
-  "author": "",
+  "author": {
+    "name": "Daniel Meylakh"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/SkyHawkB/Hawk/issues"
