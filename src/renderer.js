@@ -45,7 +45,7 @@ function render() {
             document.getElementById(`tvl-${levels[i - 1]}`).innerHTML += `<li class="tv-fi"><span class="_meta">${_escape(file)}</span><i class="far fa-file"></i> ${levels[i]}</li>`;
           } else {
             if(!document.getElementById('tvl-' + levels[i])) {
-              document.getElementById('tvl-' + levels[i - 1]).innerHTML += `<li class="tv-f tv-f-open"><i class="far fa-folder-open"></i><i class="far fa-folder"></i> ${levels[i]}<ul id="${"tvl-" + levels[i]}" class="tree-view"></ul></li>`;
+              document.getElementById('tvl-' + levels[i - 1]).innerHTML += `<li class="tv-f-open"><span class="tv-f"><i class="far fa-folder-open"></i><i class="far fa-folder"></i> ${levels[i]}</span><ul id="${"tvl-" + levels[i]}" class="tree-view"></ul></li>`;
             }
           }
         }
@@ -60,8 +60,8 @@ function render() {
     let folderElement = folderElements[i];
 
     folderElement.addEventListener('click', () => {
-      folderElement.classList.toggle('tv-f-open');
-      folderElement.classList.toggle('tv-f-closed');
+      folderElement.parentElement.classList.toggle('tv-f-open');
+      folderElement.parentElement.classList.toggle('tv-f-closed');
     });
   }
 
