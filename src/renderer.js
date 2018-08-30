@@ -90,4 +90,18 @@ ipcRenderer.on('saveFile', (event, data) => {
   console.log(content);
 
   fs.writeFileSync(currentOpenPath, content);
-})
+});
+
+ipcRenderer.on('tvToggle', (event, data) => {
+  let lpc = document.getElementById('left-pane').classList;
+  lpc.toggle('hidden');
+
+  const has = lpc.contains('hidden');
+  const width = has ? '100%' : '';
+  const left = has ? '0' : '';
+
+  document.getElementById('editor').style.width = width;
+  document.getElementById('tab-container').style.width = width;
+  document.getElementById('editor').style.left = left;
+  document.getElementById('tab-container').style.left = left;
+});

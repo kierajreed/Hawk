@@ -88,7 +88,10 @@ const menu = [
       },
       {
         label: 'Toggle Tree View',
-        accelerator: 'Alt+1'
+        accelerator: 'Alt+1',
+        click: () => {
+          mainWindow.webContents.send('tvToggle', {});
+        }
       },
       {
         label: 'Toggle Terminal',
