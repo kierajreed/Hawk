@@ -7,7 +7,7 @@
     "start": "npm run compile-less && electron .",
     "test": "eslint src/**",
     "compile-less": "lessc src/index.less src/index.css",
-    "pack": "electron-builder --dir -lw",
+    "pack": "rm dist/ -r && electron-builder --dir -lw",
     "dist": "electron-builder"
   },
   "repository": {
