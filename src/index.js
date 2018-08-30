@@ -4,9 +4,9 @@ let currentWorkingDirectory;
 const fs = require('fs');
 const _path = require('path');
 let mainWindow;
-const open = (path) => {
-  console.log(path);
-  if(!path) return;
+const open = (__path) => {
+  if(!__path) return;
+  const path = __path[0];
 
   if(fs.lstatSync(path).isDirectory()) {
     currentWorkingDirectory = path;
@@ -31,14 +31,14 @@ const menu = [
         label: 'Open File',
         accelerator: 'CmdOrCtrl+O',
         click: () => {
-          open(dialog.showOpenDialog({properties: ['openFile']})[0]);
+          open(dialog.showOpenDialog({properties: ['openFile']}));
         }
       },
       {
         label: 'Open Folder',
         accelerator: 'CmdOrCtrl+Shift+O',
         click: () => {
-          open(dialog.showOpenDialog({properties: ['openDirectory']})[0]);
+          open(dialog.showOpenDialog({properties: ['openDirectory']}));
         }
       },
       {
