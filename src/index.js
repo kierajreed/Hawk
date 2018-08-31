@@ -12,6 +12,8 @@ const open = (__path) => {
     currentWorkingDirectory = path;
   } else {
     currentWorkingDirectory = _path.dirname(path);
+
+    mainWindow.webContents.send('openFileEditor', {path: path});
   }
 
   mainWindow.webContents.send('cwdUpdate', {cwd: currentWorkingDirectory});

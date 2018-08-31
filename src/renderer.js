@@ -105,3 +105,8 @@ ipcRenderer.on('tvToggle', (event, data) => {
   document.getElementById('editor').style.left = left;
   document.getElementById('tab-container').style.left = left;
 });
+
+ipcRenderer.on('openFileEditor', (event, data) => {
+  document.getElementById('editor').innerHTML = `<textarea id="mainEditor"></textarea>`;
+  document.getElementById('mainEditor').innerHTML = fs.readFileSync(data.path);
+});
