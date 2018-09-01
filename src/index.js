@@ -1,5 +1,5 @@
 const electron = require('electron');
-const {app, dialog, BrowserWindow, Menu} = electron;
+const {app, dialog, BrowserWindow, Menu, globalShortcut} = electron;
 let currentWorkingDirectory;
 const fs = require('fs');
 const _path = require('path');
@@ -133,8 +133,25 @@ function createWindow() {
 
   mainWindow.toggleDevTools();
 }
+function registerAccelerators() {
+  globalShortcut.register('CmdOrCtrl+O', () => {
+    open(dialog.showOpenDialog({properties: ['openFile']}));
+  });
+  globalShortcut.register('CmdOrCtrl+Shift+O', () => {
+    open(dialog.showOpenDialog({properties: ['openDirectory']}));
+  });
+  globalShortcut.register('CmdOrCtrl+S', () => {
+    mainWindow.webContents.send('saveFile', {});
+  });
+  globalShortcut.register('Alt+1', () => {
+    mainWindow.webContents.send('tvToggle', {});
+  });
+}
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+  registerAccelerators();
+});
 app.on('window-all-closed', () => {
   if(process.platform !== 'darwin') app.quit();
 });
