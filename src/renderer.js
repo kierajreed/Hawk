@@ -14,6 +14,7 @@ const readdir = require('./readdir-recursive.js');
 const {ipcRenderer} = require('electron');
 const fs = require('fs');
 const _path = require('path');
+const watchdir = require('node-watch');
 let currentWorkingDirectory;
 let currentOpenPath;
 
@@ -26,7 +27,9 @@ function getPathFromElement(element) {
 
   return _path.join(currentWorkingDirectory, path);
 }
-function render() {
+function renderFileTree() {
+  document.getElementById('tvl-tree-view').innerHTML = '';
+
   const files = readdir(currentWorkingDirectory);
   files.forEach((file) => {
     if(!/[\\/]/g.test(file)) {
@@ -71,9 +74,15 @@ function render() {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 ipcRenderer.on('cwdUpdate', (event, data) => {
   currentWorkingDirectory = data.cwd;
-  render();
+  renderFileTree();
+
+  // eslint-disable-next-line no-unused-vars
+  watchdir(data.cwd, { recursive: true }, (_event, name) => {
+    renderFileTree();
+  });
 });
 
 // eslint-disable-next-line no-unused-vars
@@ -97,6 +106,7 @@ ipcRenderer.on('tvToggle', (event, data) => {
   document.getElementById('tab-container').style.left = left;
 });
 
+// eslint-disable-next-line no-unused-vars
 ipcRenderer.on('openFileEditor', (event, data) => {
   document.getElementById('editor').innerHTML = '<textarea id="mainEditor"></textarea>';
   document.getElementById('mainEditor').innerHTML = fs.readFileSync(data.path);

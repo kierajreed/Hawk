@@ -29,5 +29,8 @@
     "electron": "~2.0.5",
     "eslint": "^4.19.1",
     "less": "^3.7.1"
+  },
+  "dependencies": {
+    "node-watch": "^0.5.8"
   }
 }
