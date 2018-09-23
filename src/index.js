@@ -1,8 +1,12 @@
 const electron = require('electron');
-const {app, dialog, BrowserWindow, Menu, globalShortcut} = electron;
+const {app, dialog, ipcMain, BrowserWindow, Menu, globalShortcut} = electron;
 let currentWorkingDirectory;
 const fs = require('fs');
 const _path = require('path');
+const os = require('os');
+const cson = require('cson');
+const SETTINGS_FILE_PATH = _path.join(os.homedir(), '/.hawk/settings.cson');
+let settings;
 let mainWindow;
 const open = (__path) => {
   if(!__path) return;
@@ -56,6 +60,15 @@ const menu = [
       {
         label: 'Save As',
         accelerator: 'CmdOrCtrl+Shift+S'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Settings',
+        click: () => {
+          mainWindow.webContents.send('openFileEditor', {path: SETTINGS_FILE_PATH});
+        }
       },
       {
         type: 'separator'
@@ -147,10 +160,25 @@ function registerAccelerators() {
     mainWindow.webContents.send('tvToggle', {});
   });
 }
+function generateAndReadSettingsFile() {
+  if(!fs.existsSync(SETTINGS_FILE_PATH)) {
+    console.log('making settings');
+    require('mkpath').sync(_path.dirname(SETTINGS_FILE_PATH));
+    fs.writeFileSync(SETTINGS_FILE_PATH, require('./default-settings.js').DEFAULT_SETTINGS);
+  }
+
+  settings = cson.load(SETTINGS_FILE_PATH);
+}
+
+// eslint-disable-next-line no-unused-vars
+ipcMain.on('settingsRequest', (event, data) => {
+  mainWindow.webContents.send('settingsUpdate', {settings: settings});
+});
 
 app.on('ready', () => {
   createWindow();
   registerAccelerators();
+  generateAndReadSettingsFile();
 });
 app.on('window-all-closed', () => {
   if(process.platform !== 'darwin') app.quit();

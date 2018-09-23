@@ -17,6 +17,7 @@ const _path = require('path');
 const watchdir = require('node-watch');
 let currentWorkingDirectory;
 let currentOpenPath;
+let settings;
 
 function _escape(string) {
   return string.replace('<', '%lt%').replace('>', '%gt%');
@@ -73,6 +74,10 @@ function renderFileTree() {
     });
   }
 }
+function useSettings() {
+  console.log('reee');
+  document.body.style.fontFamily = `${settings.font || ''}, ${require('./default-settings.js').DEFAULT_FONT}, monospace`;
+}
 
 // eslint-disable-next-line no-unused-vars
 ipcRenderer.on('cwdUpdate', (event, data) => {
@@ -108,6 +113,20 @@ ipcRenderer.on('tvToggle', (event, data) => {
 
 // eslint-disable-next-line no-unused-vars
 ipcRenderer.on('openFileEditor', (event, data) => {
+  currentOpenPath = data.path;
   document.getElementById('editor').innerHTML = '<textarea id="mainEditor"></textarea>';
   document.getElementById('mainEditor').innerHTML = fs.readFileSync(data.path);
+});
+
+// eslint-disable-next-line no-unused-vars
+document.addEventListener('DOMContentLoaded', (event) => {
+  ipcRenderer.send('settingsRequest');
+});
+
+// eslint-disable-next-line no-unused-vars
+ipcRenderer.on('settingsUpdate', (event, data) => {
+  console.log('reeeee -1');
+  settings = data.settings;
+
+  useSettings();
 });

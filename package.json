@@ -31,6 +31,8 @@
     "less": "^3.7.1"
   },
   "dependencies": {
+    "cson": "^5.1.0",
+    "mkpath": "^1.0.0",
     "node-watch": "^0.5.8"
   }
 }
