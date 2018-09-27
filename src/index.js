@@ -1,6 +1,5 @@
 const electron = require('electron');
 const {app, dialog, ipcMain, BrowserWindow, Menu, globalShortcut} = electron;
-let currentWorkingDirectory;
 const fs = require('fs');
 const _path = require('path');
 const os = require('os');
@@ -8,6 +7,7 @@ const cson = require('cson');
 const SETTINGS_FILE_PATH = _path.join(os.homedir(), '/.hawk/settings.cson');
 let settings;
 let mainWindow;
+let currentWorkingDirectory;
 const open = (__path) => {
   if(!__path) return;
   const path = __path[0];
