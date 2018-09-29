@@ -8,6 +8,7 @@ const SETTINGS_FILE_PATH = _path.join(os.homedir(), '/.hawk/settings.cson');
 let settings;
 let mainWindow;
 let currentWorkingDirectory;
+let tvFocused = false;
 const open = (__path) => {
   if(!__path) return;
   const path = __path[0];
@@ -159,6 +160,12 @@ function registerAccelerators() {
   globalShortcut.register('Alt+1', () => {
     mainWindow.webContents.send('tvToggle', {});
   });
+  globalShortcut.register('A', () => {
+    if(tvFocused) mainWindow.webContents.send('new', {type: 'file'});
+  });
+  globalShortcut.register('Shift+A', () => {
+    if(tvFocused) mainWindow.webContents.send('new', {type: 'folder'});
+  });
 }
 function generateAndReadSettingsFile() {
   if(!fs.existsSync(SETTINGS_FILE_PATH)) {
@@ -172,6 +179,10 @@ function generateAndReadSettingsFile() {
 // eslint-disable-next-line no-unused-vars
 ipcMain.on('settingsRequest', (event, data) => {
   mainWindow.webContents.send('settingsUpdate', {settings: settings});
+});
+// eslint-disable-next-line no-unused-vars
+ipcMain.on('tvFocuseChanged', (event, data) => {
+  tvFocused = data.isFocused;
 });
 
 app.on('ready', () => {

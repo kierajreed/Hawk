@@ -128,3 +128,12 @@ ipcRenderer.on('settingsUpdate', (event, data) => {
 
   useSettings();
 });
+
+// eslint-disable-next-line no-unused-vars
+document.getElementById('left-pane').addEventListener('focus', (event) => {
+  ipcMain.send('tvFocuseChanged', {isFocused: true});
+});
+// eslint-disable-next-line no-unused-vars
+document.getElementById('left-pane').addEventListener('focusout', (event) => {
+  ipcMain.send('tvFocuseChanged', {isFocused: false});
+});
