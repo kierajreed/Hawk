@@ -78,7 +78,8 @@ function useSettings() {
   document.body.style.fontFamily = `${settings.font || ''}, ${require('./default-settings.js').DEFAULT_FONT}, monospace`;
 }
 
-// eslint-disable-next-line no-unused-vars
+
+// eslint-disable no-unused-vars
 ipcRenderer.on('cwdUpdate', (event, data) => {
   currentWorkingDirectory = data.cwd;
   renderFileTree();
@@ -88,14 +89,10 @@ ipcRenderer.on('cwdUpdate', (event, data) => {
     renderFileTree();
   });
 });
-
-// eslint-disable-next-line no-unused-vars
 ipcRenderer.on('saveFile', (event, data) => {
   const content = document.getElementById('mainEditor').value;
   fs.writeFileSync(currentOpenPath, content);
 });
-
-// eslint-disable-next-line no-unused-vars
 ipcRenderer.on('tvToggle', (event, data) => {
   let lpc = document.getElementById('left-pane').classList;
   lpc.toggle('hidden');
@@ -109,31 +106,24 @@ ipcRenderer.on('tvToggle', (event, data) => {
   document.getElementById('editor').style.left = left;
   document.getElementById('tab-container').style.left = left;
 });
-
-// eslint-disable-next-line no-unused-vars
 ipcRenderer.on('openFileEditor', (event, data) => {
   currentOpenPath = data.path;
   document.getElementById('editor').innerHTML = '<textarea id="mainEditor"></textarea>';
   document.getElementById('mainEditor').innerHTML = fs.readFileSync(data.path);
 });
-
-// eslint-disable-next-line no-unused-vars
-document.addEventListener('DOMContentLoaded', (event) => {
-  ipcRenderer.send('settingsRequest');
-});
-
-// eslint-disable-next-line no-unused-vars
 ipcRenderer.on('settingsUpdate', (event, data) => {
   settings = data.settings;
 
   useSettings();
 });
 
-// eslint-disable-next-line no-unused-vars
+document.addEventListener('DOMContentLoaded', (event) => {
+  ipcRenderer.send('settingsRequest');
+});
 document.getElementById('left-pane').addEventListener('focus', (event) => {
   ipcMain.send('tvFocuseChanged', {isFocused: true});
 });
-// eslint-disable-next-line no-unused-vars
 document.getElementById('left-pane').addEventListener('focusout', (event) => {
   ipcMain.send('tvFocuseChanged', {isFocused: false});
 });
+// eslint-enable no-unused-vars
