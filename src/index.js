@@ -176,15 +176,6 @@ function generateAndReadSettingsFile() {
   settings = cson.load(SETTINGS_FILE_PATH);
 }
 
-// eslint-disable-next-line no-unused-vars
-ipcMain.on('settingsRequest', (event, data) => {
-  mainWindow.webContents.send('settingsUpdate', {settings: settings});
-});
-// eslint-disable-next-line no-unused-vars
-ipcMain.on('tvFocuseChanged', (event, data) => {
-  tvFocused = data.isFocused;
-});
-
 app.on('ready', () => {
   createWindow();
   registerAccelerators();
@@ -196,3 +187,12 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if(mainWindow === null) createWindow();
 });
+
+/* eslint-disable no-unused-vars */
+ipcMain.on('settingsRequest', (event, data) => {
+  mainWindow.webContents.send('settingsUpdate', {settings: settings});
+});
+ipcMain.on('tvFocuseChanged', (event, data) => {
+  tvFocused = data.isFocused;
+});
+/* eslint-enable no-unused-vars */
