@@ -75,7 +75,6 @@ function renderFileTree() {
   }
 }
 function useSettings() {
-  console.log('reee');
   document.body.style.fontFamily = `${settings.font || ''}, ${require('./default-settings.js').DEFAULT_FONT}, monospace`;
 }
 
@@ -125,7 +124,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 // eslint-disable-next-line no-unused-vars
 ipcRenderer.on('settingsUpdate', (event, data) => {
-  console.log('reeeee -1');
   settings = data.settings;
 
   useSettings();
