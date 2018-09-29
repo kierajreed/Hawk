@@ -162,7 +162,6 @@ function registerAccelerators() {
 }
 function generateAndReadSettingsFile() {
   if(!fs.existsSync(SETTINGS_FILE_PATH)) {
-    console.log('making settings');
     require('mkpath').sync(_path.dirname(SETTINGS_FILE_PATH));
     fs.writeFileSync(SETTINGS_FILE_PATH, require('./default-settings.js').DEFAULT_SETTINGS);
   }
