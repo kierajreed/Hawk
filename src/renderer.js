@@ -79,7 +79,7 @@ function useSettings() {
 }
 
 
-// eslint-disable no-unused-vars
+/* eslint-disable no-unused-vars */
 ipcRenderer.on('cwdUpdate', (event, data) => {
   currentWorkingDirectory = data.cwd;
   renderFileTree();
@@ -126,4 +126,4 @@ document.getElementById('left-pane').addEventListener('focus', (event) => {
 document.getElementById('left-pane').addEventListener('focusout', (event) => {
   ipcMain.send('tvFocuseChanged', {isFocused: false});
 });
-// eslint-enable no-unused-vars
+/* eslint-enable no-unused-vars */
