@@ -1,5 +1,8 @@
 const electron = require('electron');
-const {app, dialog, ipcMain, BrowserWindow, Menu, globalShortcut} = electron;
+const {
+  app, dialog, ipcMain, BrowserWindow,
+  Menu, globalShortcut, MenuItem
+} = electron;
 const fs = require('fs');
 const _path = require('path');
 const os = require('os');
