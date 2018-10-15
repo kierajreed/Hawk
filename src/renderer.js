@@ -116,14 +116,16 @@ ipcRenderer.on('settingsUpdate', (event, data) => {
 
   useSettings();
 });
+ipcRenderer.on('showCreateDialog', (event, data) => {
+  // show file/folder creation dialog here
+});
 
 document.addEventListener('DOMContentLoaded', (event) => {
   ipcRenderer.send('settingsRequest');
 });
-document.getElementById('left-pane').addEventListener('focus', (event) => {
-  ipcMain.send('tvFocuseChanged', {isFocused: true});
-});
-document.getElementById('left-pane').addEventListener('focusout', (event) => {
-  ipcMain.send('tvFocuseChanged', {isFocused: false});
+document.getElementById('left-pane').addEventListener('mousedown', (event) => {
+  if(event.button === 2) {
+    ipcRenderer.send('showTvContextMenu', event);
+  }
 });
 /* eslint-enable no-unused-vars */

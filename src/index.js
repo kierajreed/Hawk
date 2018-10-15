@@ -10,7 +10,7 @@ const cson = require('cson');
 const SETTINGS_FILE_PATH = _path.join(os.homedir(), '/.hawk/settings.cson');
 let settings;
 let mainWindow;
-let currentWorkingDirectory;
+let currentWorkingDirectory = null;
 let tvFocused = false;
 const open = (__path) => {
   if(!__path) return;
@@ -137,6 +137,21 @@ const menu = [
   }
 ];
 
+const tvContextMenu = Menu.buildFromTemplate([
+  {
+    label: 'New File',
+    click: () => {
+      mainWindow.webContents.send('showCreateDialog', {type: 'file'});
+    }
+  },
+  {
+    label: 'New Folder',
+    click: () => {
+      mainWindow.webContents.send('showCreateDialog', {type: 'folder'});
+    }
+  }
+]);
+
 function createWindow() {
   mainWindow = new BrowserWindow(options);
 
@@ -195,7 +210,9 @@ app.on('activate', () => {
 ipcMain.on('settingsRequest', (event, data) => {
   mainWindow.webContents.send('settingsUpdate', {settings: settings});
 });
-ipcMain.on('tvFocuseChanged', (event, data) => {
-  tvFocused = data.isFocused;
+ipcMain.on('showTvContextMenu', (event, data) => {
+  if(currentWorkingDirectory !== null) {
+    tvContextMenu.popup(mainWindow, data.x, data.y);
+  }
 });
 /* eslint-enable no-unused-vars */
