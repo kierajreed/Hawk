@@ -23,6 +23,16 @@ body, html, #editor-container {
 ._meta, .hidden {
   display: none !important;
 }
+.nohighlight {
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  &:active {
+    border: none;
+    outline: none;
+  }
+}
 
 ::-webkit-scrollbar {
     width: 10px;
@@ -92,6 +102,7 @@ body, html, #editor-container {
   position: fixed;
   top: (@bar-height - 1px);
   left: 201px;
+  padding: 1px;
 }
 #mainEditor {
   background-color: inherit;
@@ -101,14 +112,7 @@ body, html, #editor-container {
   margin: 0;
   white-space: nowrap;
 
-  &:focus {
-    border: none;
-    outline: none;
-  }
-  &:active {
-    border: none;
-    outline: none;
-  }
+  .nohighlight;
 }
 
 #status-bar {
@@ -133,4 +137,21 @@ body, html, #editor-container {
 
 .far {
   margin: 3px;
+}
+
+#creation-dialog {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  display: flex;
+  width: auto;
+  height: auto;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: multiply(@panes, #CCCCCC);
+  flex-direction: column;
+
+  input {
+    .nohighlight;
+  }
 }

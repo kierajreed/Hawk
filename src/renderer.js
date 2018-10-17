@@ -66,7 +66,7 @@ function renderFileTree() {
     let fileElement = fileElements[i];
 
     fileElement.addEventListener('click', () => {
-      document.getElementById('editor').innerHTML = '<textarea id="mainEditor"></textarea>';
+      document.getElementById('editor').innerHTML += '<textarea id="mainEditor"></textarea>';
 
       const path = getPathFromElement(fileElement);
       currentOpenPath = path;
