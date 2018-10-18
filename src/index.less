@@ -9,7 +9,7 @@
   color: @text;
 }
 body * {
-  font-family: inherit;
+    font-family: inherit;
 }
 
 body, html, #editor-container {
@@ -19,19 +19,12 @@ body, html, #editor-container {
   display: block;
   background-color: @editor;
 }
+#editor-container {
+  position: relative;
+}
 
 ._meta, .hidden {
   display: none !important;
-}
-.nohighlight {
-  &:focus {
-    border: none;
-    outline: none;
-  }
-  &:active {
-    border: none;
-    outline: none;
-  }
 }
 
 ::-webkit-scrollbar {
@@ -112,7 +105,14 @@ body, html, #editor-container {
   margin: 0;
   white-space: nowrap;
 
-  .nohighlight;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  &:active {
+    border: none;
+    outline: none;
+  }
 }
 
 #status-bar {
@@ -141,17 +141,34 @@ body, html, #editor-container {
 
 #creation-dialog {
   position: absolute;
-  top: 25px;
-  left: 25px;
+  top:  100px;
+  left: 53%;
+  width:  380px;
+  height: 75px;
+  transform: translate(-50%, -50%);
+
   display: flex;
-  width: auto;
-  height: auto;
-  border-radius: 5px;
-  padding: 5px;
-  background-color: multiply(@panes, #CCCCCC);
   flex-direction: column;
 
+  padding: 5px;
+  border-radius: 5px;
+  background-color: multiply(@panes, #CCCCCC);
+
+  z-index: 2;
+
   input {
-    .nohighlight;
+    padding: 5px;
+    border-radius: 5px;
+    border:  none;
+    outline: none;
+
+    &:focus {
+      border:  2px solid rgba(0, 127, 255, 70);
+      outline: none;
+    }
+    &:active {
+      border:  2px solid rgba(0, 127, 255, 70);
+      outline: none;
+    }
   }
 }
