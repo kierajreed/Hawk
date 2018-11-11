@@ -15,9 +15,11 @@ const {ipcRenderer} = require('electron');
 const fs = require('fs');
 const _path = require('path');
 const watchdir = require('node-watch');
+const mkpath = require('mkpath');
 let currentWorkingDirectory;
 let currentOpenPath;
 let settings;
+let currentCreationType;
 
 function _escape(string) {
   return string.replace('<', '%lt%').replace('>', '%gt%');
@@ -77,6 +79,31 @@ function renderFileTree() {
 function useSettings() {
   document.body.style.fontFamily = `${settings.font || ''}, ${require('./default-settings.js').DEFAULT_FONT}, monospace`;
 }
+function openEditor(path) {
+  currentOpenPath = path;
+  document.getElementById('editor').innerHTML = '<textarea id="mainEditor"></textarea>';
+  document.getElementById('mainEditor').innerHTML = fs.readFileSync(path);
+}
+function createItem(type, path) {
+  path = _path.join(currentWorkingDirectory, path);
+
+  if(type.toLowerCase() === 'file') {
+    mkpath.sync(_path.dirname(path));
+    fs.writeFileSync(path, '');
+    openEditor(path);
+  } else if(type.toLowerCase() === folder) {
+    mkpath.sync(path);
+  } else {
+    throw new ValueError('"type" is neither "file" nor "folder"!');
+  }
+}
+function cleanUpCreationDialog() {
+  let creationDialog = document.getElementById('creation-dialog');
+  creationDialog.style.display = 'none';
+  document.getElementById('creation-dialog-background').style.display = 'none';
+  currentCreationType = null;
+  creationDialog.innerHTML = creationDialog.innerHTML.replace(/(file|folder)/, '#TYPE#');
+}
 
 
 /* eslint-disable no-unused-vars */
@@ -84,7 +111,6 @@ ipcRenderer.on('cwdUpdate', (event, data) => {
   currentWorkingDirectory = data.cwd;
   renderFileTree();
 
-  // eslint-disable-next-line no-unused-vars
   watchdir(data.cwd, { recursive: true }, (_event, name) => {
     renderFileTree();
   });
@@ -107,9 +133,7 @@ ipcRenderer.on('tvToggle', (event, data) => {
   document.getElementById('tab-container').style.left = left;
 });
 ipcRenderer.on('openFileEditor', (event, data) => {
-  currentOpenPath = data.path;
-  document.getElementById('editor').innerHTML = '<textarea id="mainEditor"></textarea>';
-  document.getElementById('mainEditor').innerHTML = fs.readFileSync(data.path);
+  openEditor(data.path);
 });
 ipcRenderer.on('settingsUpdate', (event, data) => {
   settings = data.settings;
@@ -117,11 +141,26 @@ ipcRenderer.on('settingsUpdate', (event, data) => {
   useSettings();
 });
 ipcRenderer.on('showCreateDialog', (event, data) => {
-  // show file/folder creation dialog here
+  currentCreationType = data.type;
+  let creationDialog = document.getElementById('creation-dialog');
+  creationDialog.innerHTML = creationDialog.innerHTML.replace('#TYPE#', currentCreationType);
+  creationDialog.style.display = 'flex';
+  document.getElementById('creation-dialog-background').style.display = 'block';
+  document.getElementById('creation-dialog-input').focus();
+  document.getElementById('creation-dialog-input').addEventListener('keydown', (event) => {
+    if(event.key == 'Enter') {
+      event.preventDefault();
+      createItem(currentCreationType, document.getElementById('creation-dialog-input').value);
+      cleanUpCreationDialog();
+    }
+  });
 });
 
 document.addEventListener('DOMContentLoaded', (event) => {
   ipcRenderer.send('settingsRequest');
+});
+document.getElementById('creation-dialog-background').addEventListener('click', (event) => {
+  cleanUpCreationDialog();
 });
 document.getElementById('left-pane').addEventListener('mousedown', (event) => {
   if(event.button === 2) {

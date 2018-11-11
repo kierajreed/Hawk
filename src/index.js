@@ -163,7 +163,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  mainWindow.toggleDevTools();
+  //mainWindow.toggleDevTools();
 }
 function registerAccelerators() {
   globalShortcut.register('CmdOrCtrl+O', () => {
